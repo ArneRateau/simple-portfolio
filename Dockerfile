@@ -1,10 +1,11 @@
 FROM nginx:alpine
 
-RUN apk add --no-cache git
+WORKDIR /tmp
 
-RUN git clone https://github.com/ArneRateau/simple-portfolio.git /simple-portfolio
+RUN apk add git && \
+    git clone https://github.com/ArneRateau/simple-portfolio.git website && \
+    cp -r website/* /usr/share/nginx/html
 
+EXPOSE 80
 
-RUN cp -r /simple-portfolio/* /usr/share/nginx/html/
-
-RUN rm -rf /simple-portfolio
+CMD ["nginx", "-g", "daemon off;"]
